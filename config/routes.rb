@@ -1,5 +1,7 @@
 Jilli::Application.routes.draw do
   resources :patient_profiles
+  resources :patient_profile_searches
+  root :to => 'application#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

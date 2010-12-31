@@ -1,0 +1,2 @@
+module PatientProfileSearchesHelper
+end

@@ -1,0 +1,38 @@
+body { font-family: Verdana; font-size: 12px; }
+#wrapper { margin: 0 auto; position: relative; width: 960px; }
+#left { 
+  width: 280px; 
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 8px;
+  padding-bottom: 13px;
+  float: left; 
+  margin: 8px; 
+}
+#tabs { 
+  width: 600px; 
+  float: left; 
+  margin: 8px 8px 8px 0px; 
+}
+#search { 
+}
+#search-input { 
+  width: 260px; 
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid gray; 
+  border-radius: 4px;
+}
+.tab-button-panel {
+  margin-bottom: 12px;
+}
+.tab-text { 
+  width: 100%; 
+  height: 300px; 
+  border: 1px solid gray; 
+  border-radius: 4px;
+}
+.clear-button {
+  float: right;
+  clear: both;
+}
