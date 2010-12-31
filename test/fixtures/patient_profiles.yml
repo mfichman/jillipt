@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  diagnosis: MyText
+  modalities: MyText
+  exercises: MyText
+  tests: MyText
+  other: MyText
+
+two:
+  diagnosis: MyText
+  modalities: MyText
+  exercises: MyText
+  tests: MyText
+  other: MyText

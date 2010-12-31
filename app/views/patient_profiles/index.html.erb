@@ -1,0 +1,31 @@
+<h1>Listing patient_profiles</h1>
+
+<table>
+  <tr>
+    <th>Diagnosis</th>
+    <th>Modalities</th>
+    <th>Exercises</th>
+    <th>Tests</th>
+    <th>Other</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @patient_profiles.each do |patient_profile| %>
+  <tr>
+    <td><%= patient_profile.diagnosis %></td>
+    <td><%= patient_profile.modalities %></td>
+    <td><%= patient_profile.exercises %></td>
+    <td><%= patient_profile.tests %></td>
+    <td><%= patient_profile.other %></td>
+    <td><%= link_to 'Show', patient_profile %></td>
+    <td><%= link_to 'Edit', edit_patient_profile_path(patient_profile) %></td>
+    <td><%= link_to 'Destroy', patient_profile, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Patient profile', new_patient_profile_path %>
