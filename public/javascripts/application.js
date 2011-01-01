@@ -4,6 +4,8 @@
 $(function() {
   var AUTOSAVE_INTERVAL = 30000; // In milliseconds
   var SEARCH_TIMEOUT = 500; // In milliseconds
+	var MESSAGE_TIMEOUT = 5000; // In milliseconds
+	var MAX_LABEL_LENGTH = 32;
 
   var id_ = null;
   var changes_ = false;
@@ -17,13 +19,20 @@ $(function() {
   $('.save-button').click(save);
 
   /* Hide the warning labels */
-  $('.warning-label').html('Don\'t forget to click save!').hide();
+  $('.warning-label').hide();
+	$('.message-label').hide();
+	title('New Patient Profile');
 
   /* Creates a new profile, editable by the user */
   $('.new-button').click(function() {
+		if (id_) {
+			save();
+		}
+
     $('#tabs > div > textarea').val('');
     changes(false);
     id(null);
+		title('New Patient Profile');
   });
 
   /* Clears the current profile */
@@ -44,7 +53,7 @@ $(function() {
 
   /* Deletes the current profile */
   function destroy() {
-    $('#tabs > div').not('ui-tabs-hide').find('textarea').val('');
+    $('#tabs > div > textarea').val('');
     if (id_) {
       del('/patient_profiles/' + id_ + '.json', {}, function(data, stat) {
         if (stat == 'success') {
@@ -52,7 +61,9 @@ $(function() {
         }
       });
     }
+		changes(false);
     id(null);
+	  title('New Patient Profile');
   }
 
   /* Searches for whatever is in the search box */
@@ -67,7 +78,11 @@ $(function() {
         /* Build the list of profiles that match the search */
         $list = $('<ul></ul>');
         for (index in data) {
-          $anchor = $('<a href="#">' + data[index].text + '</a></li>');
+					var text = '#' + data[index].id + ' ' + data[index].text;
+					if (text.length > MAX_LABEL_LENGTH) {
+						text = text.substr(0, MAX_LABEL_LENGTH - 3) + '...';
+					} 
+          $anchor = $('<a href="#">' + text + '</a></li>');
           $anchor.data('id', data[index].id);
           $anchor.click(function(event) {
             id($(event.target).data('id'));
@@ -100,6 +115,7 @@ $(function() {
       $('#exercises textarea').val(data.patient_profile.exercises);
       $('#tests textarea').val(data.patient_profile.tests);
       $('#other textarea').val(data.patient_profile.other);
+			title('Patient Profile #' + id_);
     });
   }
 
@@ -125,21 +141,46 @@ $(function() {
           id_ = data.patient_profile.id;
           changes(false);
           search();
+					message('Saved!');
+					title('Patient Profile #' + id_);
         } else {
+					$('.warning-label').html('Couldn\'t save!').show();
           changes(true);
         }
       });
     } else {
+			console.log(data);
       put('/patient_profiles/' + id_ + '.json', data, function(data, stat) {
         if (stat == 'success') {
           changes(false);
           search();
+					message('Saved!');
         } else {
+					$('.warning-label').html('Couldn\'t save!').show();
           changes(true);
         }
       });
     }
   }
+
+	/* Sets the message that's flashed on the top bar */
+	function message(message) {
+		$('.message-label').hide();
+		if (message != null) {
+			
+			$('#tabs > div').not('.ui-tabs-hide').find('.message-label')
+				.html(message)
+				.show()
+				.fadeOut(MESSAGE_TIMEOUT);
+		}
+	}
+
+	/* Sets the title of the card */
+	function title(title) {
+		if (title != null) {
+			$('.profile-id').html(title);
+		}
+	}
 
   /* Starts the autosave timer */
   function changes(flag) {
@@ -148,8 +189,8 @@ $(function() {
     }
     changes_ = flag;
 
-    if (id_ == null) {
-      $('.warning-label').show();
+    if (changes_ && id_ == null) {
+      $('.warning-label').html('Don\'t forget to save!').show();
     } else {
       $('.warning-label').hide();
     }
@@ -157,7 +198,6 @@ $(function() {
     if (changes_ && saveTimer_ == null && id_) {
       saveTimer_ = setInterval(save, AUTOSAVE_INTERVAL);
     } else if (!changes_) {
-      console.log(id_);
       clearTimeout(saveTimer_);
     }
   }

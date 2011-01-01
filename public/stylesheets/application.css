@@ -1,4 +1,5 @@
 body { font-family: Verdana; font-size: 12px; }
+h1 { font-size: 18px; font-weight: bold; }
 #wrapper { margin: 0 auto; position: relative; width: 960px; }
 #left { 
   width: 280px; 
@@ -23,6 +24,9 @@ body { font-family: Verdana; font-size: 12px; }
   border: 1px solid gray; 
   border-radius: 4px;
 }
+#list li {
+  padding-bottom: 12px;
+}
 .tab-button-panel {
   margin-bottom: 12px;
 }
@@ -38,4 +42,7 @@ body { font-family: Verdana; font-size: 12px; }
 }
 .warning-label {
   color: red;
+}
+.message-label {
+	font-style: italic;
 }
