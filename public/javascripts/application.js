@@ -11,21 +11,24 @@ $(function() {
   var searchTimer_ = null;
 
   /* Creates the tabs and makes them sortable */
-  $('#tabs').tabs().find('.ui-tabs-nav').sortable({ axis: 'x' });
+  $('#tabs').tabs();
 
   /* Saves the current profile */
   $('.save-button').click(save);
 
+  /* Hide the warning labels */
+  $('.warning-label').html('Don\'t forget to click save!').hide();
+
   /* Creates a new profile, editable by the user */
   $('.new-button').click(function() {
     $('#tabs > div > textarea').val('');
-    id_ = null;
     changes(false);
+    id(null);
   });
 
   /* Clears the current profile */
-  $('.clear-button').click(function() {
-    $('#tabs > div').not('ui-tabs-hide').find('textarea').val('');
+  $('.delete-button').click(function() {
+    destroy();
   });
   
   /* Marks the current profile as NOT saved */
@@ -38,6 +41,19 @@ $(function() {
     clearTimeout(searchTimer_);
     searchTimer_ = setTimeout(search, SEARCH_TIMEOUT);
   });
+
+  /* Deletes the current profile */
+  function destroy() {
+    $('#tabs > div').not('ui-tabs-hide').find('textarea').val('');
+    if (id_) {
+      del('/patient_profiles/' + id_ + '.json', {}, function(data, stat) {
+        if (stat == 'success') {
+          search();
+        }
+      });
+    }
+    id(null);
+  }
 
   /* Searches for whatever is in the search box */
   function search() {
@@ -69,9 +85,14 @@ $(function() {
 
   /* Sets the ID of the current patient profile */
   function id(value) {
-    if (value == null) {
+    if (arguments.length == 0) {
       return id_;
     } 
+    id_ = value;
+    if (id_ == null) {
+      $('.warning-label').hide();
+      return;
+    }
     get('/patient_profiles/' + value + '.json', {}, function(data, stat) {
       id_ = data.patient_profile.id;
       $('#diagnosis textarea').val(data.patient_profile.diagnosis);
@@ -127,9 +148,16 @@ $(function() {
     }
     changes_ = flag;
 
+    if (id_ == null) {
+      $('.warning-label').show();
+    } else {
+      $('.warning-label').hide();
+    }
+
     if (changes_ && saveTimer_ == null && id_) {
       saveTimer_ = setInterval(save, AUTOSAVE_INTERVAL);
     } else if (!changes_) {
+      console.log(id_);
       clearTimeout(saveTimer_);
     }
   }
@@ -184,6 +212,24 @@ function get(url, data, complete) {
     },
     error: function(req, stat, error) {
       console.log('GET error');
+      complete(null, stat);
+    }
+  });
+}
+
+/* Wrapper on the jQuery.ajax() function */
+function del(url, data, complete) {
+  data._method = 'DELETE';
+  $.ajax({
+    type: 'POST',
+    url: url,
+    data: data,
+    success: function(data, stat, req) {
+      console.log('DELETE success');
+      complete(data, 'success');
+    },
+    error: function(req, stat, error) {
+      console.log('DELETE error');
       complete(null, stat);
     }
   });

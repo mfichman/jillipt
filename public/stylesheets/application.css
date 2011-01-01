@@ -32,7 +32,10 @@ body { font-family: Verdana; font-size: 12px; }
   border: 1px solid gray; 
   border-radius: 4px;
 }
-.clear-button {
+.delete-button {
   float: right;
   clear: both;
+}
+.warning-label {
+  color: red;
 }
