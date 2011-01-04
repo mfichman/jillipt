@@ -71,7 +71,7 @@ $(function() {
     var search = $('#search-input').val();
     var data = { search: search };
 
-    console.log('Searching for "' + search + '"');
+    //console.log('Searching for "' + search + '"');
     post('/patient_profile_searches.json', data, function(data, stat) {
       if (stat == 'success') {
 
@@ -121,7 +121,7 @@ $(function() {
 
   /* Saves the current profile */
   function save() {
-    console.log('Saving patient profile');
+    //console.log('Saving patient profile');
 
     /* Save all the data the user typed into the text areas */
     var data = {
@@ -149,7 +149,7 @@ $(function() {
         }
       });
     } else {
-			console.log(data);
+			//console.log(data);
       put('/patient_profiles/' + id_ + '.json', data, function(data, stat) {
         if (stat == 'success') {
           changes(false);
@@ -212,11 +212,11 @@ function post(url, data, complete) {
     url: url,
     data: data,
     success: function(data, stat, req) {
-      console.log('POST success');
+      //console.log('POST success');
       complete(data, 'success');
     },
     error: function(req, stat, error) {
-      console.log('POST error');
+      //console.log('POST error');
       complete(null, stat);
     }
   });
@@ -230,11 +230,11 @@ function put(url, data, complete) {
     url: url,
     data: data,
     success: function(data, stat, req) {
-      console.log('PUT success');
+      //console.log('PUT success');
       complete(data, 'success');
     },
     error: function(req, stat, error) {
-      console.log('PUT error');
+      //console.log('PUT error');
       complete(null, stat);
     }
   });
@@ -247,11 +247,11 @@ function get(url, data, complete) {
     url: url,
     data: data,
     success: function(data, stat, req) {
-      console.log('GET success');
+      //console.log('GET success');
       complete(data, 'success');
     },
     error: function(req, stat, error) {
-      console.log('GET error');
+      //console.log('GET error');
       complete(null, stat);
     }
   });
@@ -265,11 +265,11 @@ function del(url, data, complete) {
     url: url,
     data: data,
     success: function(data, stat, req) {
-      console.log('DELETE success');
+      //console.log('DELETE success');
       complete(data, 'success');
     },
     error: function(req, stat, error) {
-      console.log('DELETE error');
+      //console.log('DELETE error');
       complete(null, stat);
     }
   });
