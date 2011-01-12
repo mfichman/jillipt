@@ -40,11 +40,11 @@ Support.request = function(method, url, data, complete) {
     url: url,
     data: data,
     success: function(data, stat, req) {
-      console.log(method + ' success');
+      //console.log(method + ' success');
       complete(data, 'success');
     },
     error: function(req, stat, error) {
-      console.log(method + ' error');
+      //console.log(method + ' error');
       complete(null, stat);
     }
   });

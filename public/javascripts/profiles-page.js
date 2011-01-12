@@ -131,7 +131,6 @@ function ProfileListController($container) {
         }
         var $anchor = $('<a href="#">' + text + '</a>');
         $anchor.click(function() {
-          console.log(profile);
           controller.selectedProfile(profile);
         }); 
         var $element = $('<li></li>');
