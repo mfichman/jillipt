@@ -32,7 +32,13 @@ module Jilli
 
     # JavaScript files you want as :defaults (application.js is always included).
     # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
-    config.action_view.javascript_expansions[:defaults] = %w(jquery jquery-ui)
+    config.action_view.javascript_expansions[:defaults] = %w(
+      jquery
+      jquery-ui
+      support
+      patient-profile
+      profiles-page
+    )
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
