@@ -83,3 +83,37 @@ function TimedMessageLabel($label) {
   }
 }
 
+function ItemListController($list) {
+  var maxLabelLength = 32;
+
+  Support.property(this, 'items', updateList);
+  Support.property(this, 'selectedItem', updateList);
+  
+  function updateList() {
+    /* Create a new unordered list to hold all of the profiles */
+    var $list = $('<ul></ul>');
+    var controller = this;
+
+    /* Loop through all the items, and add them to the DOM */
+    for (index in this.resultsList()) {
+      (function() { 
+        var item = controller.items()[index];
+        var text = item.text;
+        if (text.length > maxLabelLength) {
+          text = text.substr(0, maxLabelLength - 3) + '...';
+        }
+        var $anchor = $('<a href="#">' + text + '</a>');
+        $anchor.click(function() {
+          controller.selectedItem(item);
+        }); 
+        var $element = $('<li></li>');
+        $element.append($anchor);
+        $list.append($element);
+      });
+    }
+
+    /* Now append the new HTML list to the DOM */
+    $container.html('');
+    $container.append($list);
+  }
+}
