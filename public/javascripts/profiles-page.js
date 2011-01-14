@@ -1,13 +1,10 @@
-$(function() {
-  new ProfilesPageController($('body'));
-});
 
-function ProfilesPageController($container) {
-  var searchBarController = new SearchBarController($('#search-input'));
-  var profileListController = new ProfileListController($('#list'));
-  var timedMessageLabel = new TimedMessageLabel($('.message-label'));
-  var profilePanelController = new ProfilePanelController($('#tabs')); 
-  var $warningLabel = $('.warning-label');
+function ProfilesPageController($page) {
+  var searchBarController = new SearchBarController($page.find('.search-input'));
+  var profileListController = new ProfileListController($page.find('.results-list'));
+  var timedMessageLabel = new TimedMessageLabel($page.find('.message-label'));
+  var profilePanelController = new ProfilePanelController($page.find('.tabs')); 
+  var $warningLabel = $page.find('.warning-label');
   var controller = this;
   var autosaveTimer = null;
   var autosaveInterval = 15000; // 15 seconds
@@ -20,7 +17,7 @@ function ProfilesPageController($container) {
 
   /* Create a new profile, and save the current profile.  Only save a profile
    * that has been saved manually at least once  */
-  $container.find('.new-button').click(function() {
+  $page.find('.new-button').click(function() {
     var profile = profilePanelController.profile();
     if (profile.id == null) {
       profilePanelController.profile({});
@@ -38,7 +35,7 @@ function ProfilesPageController($container) {
   });
 
   /* Delete the current profile and replace it with an empty profile */
-  $container.find('.delete-button').click(function() {
+  $page.find('.delete-button').click(function() {
     var profile = profilePanelController.profile();
     PatientProfile.destroy(profile, function(data, stat) {
       if (stat == 'success') {
@@ -51,7 +48,7 @@ function ProfilesPageController($container) {
   });
 
   /* Save the current profile */
-  $container.find('.save-button').click(save);
+  $page.find('.save-button').click(save);
 
   /* Called when the query changes in the search bar */
   this.onQuery = function() {

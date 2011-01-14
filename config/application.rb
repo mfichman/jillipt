@@ -38,6 +38,7 @@ module Jilli
       support
       patient-profile
       profiles-page
+      journal-page
     )
 
     # Configure the default encoding used in templates for Ruby 1.9.

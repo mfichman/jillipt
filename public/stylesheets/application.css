@@ -1,7 +1,12 @@
 body { font-family: Verdana; font-size: 12px; }
 h1 { font-size: 18px; font-weight: bold; }
 #wrapper { margin: 0 auto; position: relative; width: 960px; }
-#left { 
+.tabs { 
+  width: 600px; 
+  float: left; 
+  margin: 8px 8px 8px 0px; 
+}
+.left-panel { 
   width: 280px; 
   padding-left: 18px;
   padding-right: 18px;
@@ -10,24 +15,18 @@ h1 { font-size: 18px; font-weight: bold; }
   float: left; 
   margin: 8px; 
 }
-#tabs { 
-  width: 600px; 
-  float: left; 
-  margin: 8px 8px 8px 0px; 
-}
-#search { 
-}
-#search-input { 
+.search-input { 
   width: 260px; 
   padding: 6px;
   font-size: 14px;
   border: 1px solid gray; 
   border-radius: 4px;
 }
-#list li {
-  padding-bottom: 12px;
+.results-list li {
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
-.tab-button-panel {
+.button-panel {
   margin-bottom: 12px;
 }
 .tab-text { 
