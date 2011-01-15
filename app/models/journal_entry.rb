@@ -1,5 +1,5 @@
 require 'ghetto_search'
 
-class PatientProfile < ActiveRecord::Base
+class JournalEntry < ActiveRecord::Base
   extend GhettoSearch
 end

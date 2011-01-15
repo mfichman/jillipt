@@ -88,4 +88,18 @@ class PatientProfilesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+
+  # GET /patient_profiles/search
+  # GET /patient_profiles/search.xml
+  def search
+    @patient_profiles = PatientProfile.search(params[:query])
+    @summary_array = @patient_profiles.collect do |profile|
+      { :text => profile.diagnosis, :id => profile.id } 
+    end
+
+    respond_to do |format|
+      format.json { render :json => @summary_array }
+    end 
+  end
 end

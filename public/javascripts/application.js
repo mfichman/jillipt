@@ -6,7 +6,7 @@ $(document).ready(function() {
 });
 
 PatientProfile = new JSONModel('patient_profile');
-JournalEntry = new JSONModel('journal');
+JournalEntry = new JSONModel('journal_entry');
 
 function ApplicationController() {
     var profilesPage = new ProfilesPageController($('#profiles-page'));

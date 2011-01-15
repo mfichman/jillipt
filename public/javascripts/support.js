@@ -61,6 +61,7 @@ function SearchBarController($input) {
 
   var searchBarController = this;
   $input.keyup(function() {
+    console.log('keyup');
     clearTimeout(timer);
     timer = setTimeout(function() {
       searchBarController.query($input.val());
@@ -169,9 +170,18 @@ function NavigationList($container) {
 }
 
 function JSONModel(modelName) {
+  
+  var pluralName = modelName;
+
+  /* Need to adjust for words that end in 'y' like 'entry' */
+  if (pluralName[pluralName.length-1] == 'y') {
+    pluralName = pluralName.substring(0, pluralName.length-1) + 'ies';
+  } else {
+    pluralName = pluralName + 's';
+  }
 
   this.read = function(id, callback) {
-    var url = '/' + modelName + 's/' + id + '.json';
+    var url = '/' + pluralName + '/' + id + '.json';
     Support.request('GET', url, {}, function(data, stat) {
       if (data) {
         data[modelName].saved = true;
@@ -191,10 +201,10 @@ function JSONModel(modelName) {
     /* Otherwise, upload the model to the server */
     if (model.id == null) {
       var method = 'POST';
-      var url = '/' + modelName + 's.json';
+      var url = '/' + pluralName + '.json';
     } else {
       var method = 'PUT';
-      var url = '/' + modelName + 's/' + model.id + '.json';
+      var url = '/' + pluralName + '/' + model.id + '.json';
     }
 
     /* Prepare the model to be sent */
@@ -202,16 +212,32 @@ function JSONModel(modelName) {
     data[modelName] = model;
   
     Support.request(method, url, data, function(data, stat) {
-        if (data[modelName] != null) {
+        if (data != null && data[modelName] != null) {
           model = data[modelName];
         }
-        model.saved = true;
+        if (stat == 'success') {
+          model.saved = true;
+        }
         callback(model, stat);
     });
   } 
 
   this.destroy = function(model, callback) {
-    var url = '/' + modelName + 's/' + model.id + '.json';
+    var url = '/' + pluralName + '/' + model.id + '.json';
     Support.request('DELETE', url, {}, callback);
   }
+
+  this.search = function(query, callback) {
+    if (query.length <= 0) {
+      callback([], 'success'); 
+    }
+
+    var data = { query: query };
+    var url = '/' + pluralName + '/search' + '.json';
+  
+    Support.request('GET', url, data, function(data, stat) {
+      callback(data, stat);
+    });
+  }
+
 }

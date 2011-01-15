@@ -1,6 +1,10 @@
 Jilli::Application.routes.draw do
+  get 'journal_entries/search'
+  resources :journal_entries
+
+  get 'patient_profiles/search'
   resources :patient_profiles
-  resources :patient_profile_searches
+
   root :to => 'application#index'
 
   # The priority is based upon order of creation:

@@ -50,14 +50,7 @@ function ProfilesPageController($page) {
 
   /* Called when the query changes in the search bar */
   this.onQuery = function() {
-    var data = { search: searchBar.query() };
-    var url = '/patient_profile_searches.json';
-    if (searchBar.query().length <= 0) {
-      profileList.items([]);
-      return;
-    }
-
-    Support.request('POST', url, data, function(data, stat) {
+    PatientProfile.search(searchBar.query(), function(data, stat) {
       if (stat == 'success') {
         for (index in data) {
           data[index].text = '#' + data[index].id + ' ' + data[index].text;
