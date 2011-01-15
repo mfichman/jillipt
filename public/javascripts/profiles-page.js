@@ -1,32 +1,30 @@
 
 function ProfilesPageController($page) {
-  var searchBarController = new SearchBarController($page.find('.search-input'));
-  var profileListController = new ProfileListController($page.find('.results-list'));
-  var timedMessageLabel = new TimedMessageLabel($page.find('.message-label'));
-  var profilePanelController = new ProfilePanelController($page.find('.tabs')); 
-  var $warningLabel = $page.find('.warning-label');
+  var searchBar = new SearchBarController($page.find('.search-panel input'));
+  var profileList = new ItemListController($page.find('.search-panel .item-list'));
+  var messageLabel = new TimedMessageLabel($page.find('.message'));
+  var profilePanel = new ProfilePanelController($page.find('.tabs-panel')); 
+  var autosaveTextarea = new AutosaveTextarea($page.find('.editor-panel textarea'));
+  var $warningLabel = $page.find('.warning');
   var controller = this;
-  var autosaveTimer = null;
-  var autosaveInterval = 15000; // 15 seconds
-
 
   $warningLabel.hide();
-  searchBarController.reactor = this;
-  profileListController.reactor = this;
-  profilePanelController.reactor = this;
+  searchBar.reactor = this;
+  profileList.reactor = this;
+  profilePanel.reactor = this;
+  autosaveTextarea.reactor = this;
 
-  /* Create a new profile, and save the current profile.  Only save a profile
-   * that has been saved manually at least once  */
-  $page.find('.new-button').click(function() {
-    var profile = profilePanelController.profile();
+  /* Create a new profile, and save the current profile. */
+  $page.find('.new').click(function() {
+    var profile = profilePanel.profile();
     if (profile.id == null) {
-      profilePanelController.profile({});
+      profilePanel.profile({});
       return;
     }
     PatientProfile.update(profile, function(data, stat) {
       if (stat == 'success') {
-        profilePanelController.profile({});
-        timedMessageLabel.message('Saved!');
+        profilePanel.profile({});
+        messageLabel.message('Saved!');
         controller.onQuery();
       } else {
         $warningLabel.html('Couldn\'t save!').show();
@@ -35,11 +33,11 @@ function ProfilesPageController($page) {
   });
 
   /* Delete the current profile and replace it with an empty profile */
-  $page.find('.delete-button').click(function() {
-    var profile = profilePanelController.profile();
+  $page.find('.delete').click(function() {
+    var profile = profilePanel.profile();
     PatientProfile.destroy(profile, function(data, stat) {
       if (stat == 'success') {
-        profilePanelController.profile({});
+        profilePanel.profile({});
         controller.onQuery();
       } else {
         $warningLabel.html('Couldn\'t delete!').show();         
@@ -48,55 +46,54 @@ function ProfilesPageController($page) {
   });
 
   /* Save the current profile */
-  $page.find('.save-button').click(save);
+  $page.find('.save').click(save);
 
   /* Called when the query changes in the search bar */
   this.onQuery = function() {
-    var data = { search: searchBarController.query() };
+    var data = { search: searchBar.query() };
     var url = '/patient_profile_searches.json';
-    if (searchBarController.query().length <= 0) {
-      profileListController.profiles([]);
+    if (searchBar.query().length <= 0) {
+      profileList.items([]);
       return;
     }
 
     Support.request('POST', url, data, function(data, stat) {
       if (stat == 'success') {
-        profileListController.profiles(data);
+        for (index in data) {
+          data[index].text = '#' + data[index].id + ' ' + data[index].text;
+        }
+        profileList.items(data);
       }
     });
   }
 
   /* Called when the saved status changes */
-  this.onSaved = function() {
-    if (profilePanelController.saved()) {
-      clearTimeout(autosaveTimer);
-    } else {
-      autosaveTimer = setTimeout(function() {
-        if (profilePanelController.profile().id) {
-          save();
-        }      
-      }, autosaveInterval); 
+  this.onNeedsAutosave = function() {
+    if (autosaveTextarea.needsAutosave() &&
+        profilePanel.profile().id) {
+      save();
     }
   }
 
   /* Called when a profile is selected in the search bar */
-  this.onSelectedProfile = function() {
-    var summary = profileListController.selectedProfile();
+  this.onSelectedItem = function() {
+    var summary = profileList.selectedItem();
     PatientProfile.read(summary.id, function(data, stat) {
       if (stat == 'success') {
-        profilePanelController.profile(data.patient_profile);
+        profilePanel.profile(data);
       }
     });
   }
 
   /* Saves the current profile */
   function save() {
-    var profile = profilePanelController.profile();
+    var profile = profilePanel.profile();
     PatientProfile.update(profile, function(data, stat) {
       if (stat == 'success') {
-        profilePanelController.profile(data.patient_profile);
-        profilePanelController.saved(true);
-        timedMessageLabel.message('Saved!');
+        profilePanel.profile(data);
+        autosaveTextarea.needsSave(false);
+        messageLabel.message('');
+        messageLabel.message('Saved!');
         controller.onQuery();
       } else {
         $warningLabel.html('Couldn\'t save!').show();
@@ -105,57 +102,16 @@ function ProfilesPageController($page) {
   }
 }
 
-function ProfileListController($container) {
-  var maxLabelLength = 32;
-
-  Support.property(this, 'selectedProfile');
-  Support.property(this, 'profiles', updateList);
-
-  /* Renders the list of profiles */
-  function updateList() {
-    /* Create a new unordered list to hold all of the profiles */
-    var $list = $('<ul></ul>');
-    var controller = this;
-
-    /* Loop through all the profiles, and add them to the DOM so that they
-     * become visible */
-    for (index in this.profiles()) {
-      (function() {
-        var profile = controller.profiles()[index];
-        var text = '#' + profile.id + ' ' + profile.text;
-        if (text.length > maxLabelLength) {
-          text = text.substr(0, maxLabelLength - 3) + '...';
-        }
-        var $anchor = $('<a href="#">' + text + '</a>');
-        $anchor.click(function() {
-          controller.selectedProfile(profile);
-        }); 
-        var $element = $('<li></li>');
-        $element.append($anchor);
-        $list.append($element);
-      })();
-    }
-
-    /* Now append the new HTML list to the end of the DOM for the list
-     * container */
-    $container.html('');
-    $container.append($list);
-  }
-}
-
 function ProfilePanelController($container) {
-  var $titleLabel = $container.find('.profile-id');
-  var $messageLabel = $container.find('.message-label');
-  var $diagnosis = $container.find('#diagnosis textarea');
-  var $modalities = $container.find('#modalities textarea');
-  var $exercises = $container.find('#exercises textarea');
-  var $tests = $container.find('#tests textarea');
-  var $other = $container.find('#other textarea');
+  var $titleLabel = $container.find('.editor-panel .title');
+  var $diagnosis = $container.find('#diagnosis .editor-panel textarea');
+  var $modalities = $container.find('#modalities .editor-panel textarea');
+  var $exercises = $container.find('#exercises .editor-panel textarea');
+  var $tests = $container.find('#tests .editor-panel textarea');
+  var $other = $container.find('#other .editor-panel textarea');
   $container.tabs();
-  $messageLabel.hide();
 
   Support.property(this, 'profile', updatePanel);
-  Support.property(this, 'saved');
 
   this.profile({});
 
@@ -171,14 +127,12 @@ function ProfilePanelController($container) {
     $exercises.val(this.profile().exercises);    
     $tests.val(this.profile().tests);
     $other.val(this.profile().other);
-    this.saved(true);
   }
 
   var controller = this;
 
   /* When a key is pressed, the profile needs to be saved */
   $container.find('textarea').keyup(function() {
-    controller.saved(false);
     controller.profile().saved = false;
     controller.profile().diagnosis = $diagnosis.val();
     controller.profile().modalities = $modalities.val();

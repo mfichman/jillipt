@@ -1,19 +1,14 @@
 <div id='journal-page'>
-  <div class='left-panel ui-widget ui-corner-all ui-widget-content'>
-    <input class='search-input' type='test' placeholder='Search'></input>
-    <div class='results-list'>
+
+  <div class='column-33-percent'>
+    <%= render :partial => 'layouts/navigation_list' %>
+    <%= render :partial => 'layouts/search_panel' %>
   </div>
 
-  <div class='editor ui-widget ui-corner-all ui-widget-content'>
-    <h1 class='journal-id'>Journal Entry #1</h1><br/>
-    <div class='button-panel'>
-      <a class='save-button' href='#'>Save</a>&nbsp;
-      <a class='new-button' href='#'>New</a>&nbsp;
-      <span class='warning-label'>Warnings go here</span>
-      <span class='message-label'>Messages go here</span>
-      <a class='delete-button' href='#'>Delete</a> 
+  <div class='column-66-percent'>
+    <div class='padded-panel margin-panel ui-widget ui-corner-all ui-widget-content'>
+      <%= render :partial => 'layouts/editor_panel' %>
     </div>
-    <textarea class='editor-text'></textarea/>
   </div>
 
 </div>

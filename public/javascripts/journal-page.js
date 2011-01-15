@@ -1,16 +1,27 @@
 
 function JournalPageController($page) {
-/*
-    var searchBarController = new SearchBarController($page.find('.search-input'));
-    var journalListController = new JournalListController($page.find('.results-list'));
-    var timedMessageLabel = new TimedMessageLabel($page.find('.message-label'));
-    var journalEditorController = new JournalEditorController($page.find('.editor'));
-    var $warningLabel = $page.find('.warning-label');
-    var controller = this;
-    var autosaveTimer = null;
-    var autosaveInterval = 15000;
-*/
+  var searchBar = new SearchBarController($page.find('.search-input'));  
+  var entryList = new ItemListController($page.find('.search-panel .item-list'));
+  var messageLabel = new TimedMessageLabel($page.find('.message'));
+  var autosaveTextarea = new AutosaveTextarea($page.find('.editor-panel textarea'));
+  var $warningLabel = $page.find('.warning');
+  var controller = this;
 
-    $page.hide();
+  Support.property(this, 'entry');
 
+  $warningLabel.hide();
+
+  /* Create a new entry, and save the current entry */
+  $page.find('.new').click(function() {
+    var entry = controller.entry();
+    if (entry.id == null) {
+      entry({});
+      return;
+    }
+    JournalEntry.update(profile, function(data, stat) {
+
+    });
+    
+
+  });
 }

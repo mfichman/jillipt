@@ -1,73 +1,39 @@
 <div id='profiles-page'>
 
-  <div class='left-panel'>
+  <div class='column-33-percent'>
     <%= render :partial => 'layouts/navigation_list' %>
     <%= render :partial => 'layouts/search_panel' %>
   </div>
 
-  <div class='tabs'>
-    <ul>
-      <li><a href='#diagnosis'>Diagnosis</a></li>
-      <li><a href='#modalities'>Modalities</a></li>
-      <li><a href='#exercises'>Ther/Ex</a></li>
-      <li><a href='#tests'>Tests/Manip</a></li>
-      <li><a href='#other'>Other</a></li>
-    </ul>
+  <div class='column-66-percent'>
+    <div class='tabs-panel margin-panel'>
+      <ul>
+        <li><a href='#diagnosis'>Diagnosis</a></li>
+        <li><a href='#modalities'>Modalities</a></li>
+        <li><a href='#exercises'>Ther/Ex</a></li>
+        <li><a href='#tests'>Tests/Manip</a></li>
+        <li><a href='#other'>Other</a></li>
+      </ul>
 
-    <div id='diagnosis'>
-      <h1 class='profile-id'>Patient Profile #1</h1><br/>
-      <div class='button-panel'>
-        <a class='save-button' href='#'>Save</a>&nbsp;
-        <a class='new-button' href='#'>New</a>&nbsp;
-        <span class='warning-label'>Warnings go here</span>
-        <span class='message-label'>Messages go here</span>
-        <a class='delete-button' href='#'>Delete</a>
+      <div id='diagnosis'>
+        <%= render :partial => 'layouts/editor_panel' %>
       </div>
-      <textarea class='tab-text'></textarea>
-    </div>
-    <div id='modalities'>
-	  <h1 class='profile-id'>Patient Profile #1</h1><br/>
-      <div class='button-panel'>
-        <a class='save-button' href='#'>Save</a>&nbsp;
-        <a class='new-button' href='#'>New</a>&nbsp;
-        <span class='warning-label'>Warnings go here</span>
-        <span class='message-label'>Messages go here</span>
-        <a class='delete-button' href='#'>Delete</a>
+    
+      <div id='modalities'>
+        <%= render :partial => 'layouts/editor_panel' %>
       </div>
-      <textarea class='tab-text'></textarea>  
-    </div>
-    <div id='exercises'>
-      <h1 class='profile-id'>Patient Profile #1</h1><br/>
-      <div class='button-panel'>
-        <a class='save-button' href='#'>Save</a>&nbsp;
-        <a class='new-button' href='#'>New</a>&nbsp;
-        <span class='warning-label'>Warnings go here</span>
-        <span class='message-label'>Messages go here</span>
-        <a class='delete-button' href='#'>Delete</a>
+
+      <div id='exercises'>
+        <%= render :partial => 'layouts/editor_panel' %>
       </div>
-      <textarea class='tab-text'></textarea>
-    </div>
-    <div id='tests'>
-      <h1 class='profile-id'>Patient Profile #1</h1><br/>
-      <div class='button-panel'>
-        <a class='save-button' href='#'>Save</a>&nbsp;
-        <a class='new-button' href='#'>New</a>&nbsp;
-        <span class='warning-label'>Warnings go here</span>
-        <span class='message-label'>Messages go here</span>
-        <a class='delete-button' href='#'>Delete</a>
+
+      <div id='tests'>
+        <%= render :partial => 'layouts/editor_panel' %>
       </div>
-      <textarea class='tab-text'></textarea>
-    </div>
-    <div id='other'>
-	  <h1 class='profile-id'>Patient Profile #1</h1><br/>
-      <div class='button-panel'>
-        <a class='save-button' href='#'>Save</a>&nbsp;
-        <a class='new-button' href='#'>New</a>&nbsp;
-        <span class='warning-label'>Warnings go here</span>
-        <span class='message-label'>Messages go here</span>
-        <a class='delete-button' href='#'>Delete</a>
+
+      <div id='other'>
+        <%= render :partial => 'layouts/editor_panel' %>
       </div>
-      <textarea class='tab-text'></textarea>
     </div>
   </div>
 </div>

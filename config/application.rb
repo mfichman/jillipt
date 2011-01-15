@@ -36,7 +36,6 @@ module Jilli
       jquery
       jquery-ui
       support
-      patient-profile
       profiles-page
       journal-page
     )

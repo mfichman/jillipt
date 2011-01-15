@@ -5,8 +5,12 @@ $(document).ready(function() {
     new ApplicationController();
 });
 
+PatientProfile = new JSONModel('patient_profile');
+JournalEntry = new JSONModel('journal');
+
 function ApplicationController() {
-    var profilesPageController = new ProfilesPageController($('#profiles-page'));
-    var journalPageController = new JournalPageController($('#journal-page'));
+    var profilesPage = new ProfilesPageController($('#profiles-page'));
+    var journalPage = new JournalPageController($('#journal-page'));
+    var navigationList = new NavigationList($('.navigation-list'));
 
 }
