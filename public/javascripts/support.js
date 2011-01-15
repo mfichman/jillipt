@@ -61,7 +61,6 @@ function SearchBarController($input) {
 
   var searchBarController = this;
   $input.keyup(function() {
-    console.log('keyup');
     clearTimeout(timer);
     timer = setTimeout(function() {
       searchBarController.query($input.val());
