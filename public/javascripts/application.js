@@ -7,10 +7,11 @@ $(document).ready(function() {
 
 PatientProfile = new JSONModel('patient_profile');
 JournalEntry = new JSONModel('journal_entry');
+FlashCard = new JSONModel('flash_card');
 
 function ApplicationController() {
     var profilesPage = new ProfilesPageController($('#profiles-page'));
     var journalPage = new JournalPageController($('#journal-page'));
+    var flashCardPage = new FlashCardsPageController($('#flash-cards-page'));
     var navigationList = new NavigationList($('.navigation-list'));
-
 }

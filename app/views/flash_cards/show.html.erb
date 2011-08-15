@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Front:</b>
+  <%= @flash_card.front %>
+</p>
+
+<p>
+  <b>Back:</b>
+  <%= @flash_card.back %>
+</p>
+
+
+<%= link_to 'Edit', edit_flash_card_path(@flash_card) %> |
+<%= link_to 'Back', flash_cards_path %>

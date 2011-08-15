@@ -36,6 +36,8 @@ module Jilli
       jquery
       jquery-ui
       support
+      super-editor
+      flash-cards-page
       profiles-page
       journal-page
     )

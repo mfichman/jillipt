@@ -1,0 +1,24 @@
+<div id='flash-cards-page'>
+
+  <div class='column-33-percent'>
+  	<%= render :partial => 'layouts/navigation_list' %>
+	<%= render :partial => 'layouts/search_panel' %>
+  </div>
+
+  <div class='column-66-percent'>
+  	<div class='tabs-panel margin-panel'>
+  	  <ul>
+  	    <li><a href='#front'>Front</a></li>
+  	    <li><a href='#back'>Back</a></li>
+  	  </ul>
+
+  	  <div id='front'>
+  	    <%= render :partial => 'layouts/editor_panel' %>
+  	  </div>
+
+  	  <div id='back'>
+  	    <%= render :partial => 'layouts/editor_panel' %>
+  	  </div>
+  	</div>
+  </div>
+ <div>

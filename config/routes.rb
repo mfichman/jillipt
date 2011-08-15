@@ -5,6 +5,9 @@ Jilli::Application.routes.draw do
   get 'patient_profiles/search'
   resources :patient_profiles
 
+  get 'flash_cards/search'
+  resources :flash_cards
+
   root :to => 'application#index'
 
   # The priority is based upon order of creation:

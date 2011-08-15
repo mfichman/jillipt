@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110115083429) do
+ActiveRecord::Schema.define(:version => 20110814011552) do
+
+  create_table "flash_cards", :force => true do |t|
+    t.text     "front"
+    t.text     "back"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "journal_entries", :force => true do |t|
     t.text     "text"
