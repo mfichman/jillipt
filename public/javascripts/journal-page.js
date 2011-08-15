@@ -5,6 +5,7 @@ function JournalPageController($page) {
   var $text = $page.find('.editor-panel textarea');
 
   editor.reactor = this;
+  $titleLabel.html('New Journal Entry');
   
   this.onItem = function() {
     if (editor.item().id != null) {

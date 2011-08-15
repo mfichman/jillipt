@@ -12,8 +12,7 @@ function SuperEditor($page, model) {
   var controller = this;
 
   Support.property(this, 'item');
-
-  this.item({})
+  this.item({});
 
   searchBar.reactor = this;
   itemList.reactor = this;

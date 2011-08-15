@@ -11,6 +11,7 @@ function ProfilesPageController($page) {
   $container.tabs();
 
   editor.reactor = this;
+  $titleLabel.html('New Patient Profile');
 
   /* Renders the current panel */
   this.onItem = function() {

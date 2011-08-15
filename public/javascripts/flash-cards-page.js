@@ -9,6 +9,7 @@ function FlashCardsPageController($page) {
   $container.tabs();
 
   editor.reactor = this;
+  $titleLabel.html('New Flash Card');
 
   /* Renders the current panel */
   this.onItem = function() {
