@@ -12,6 +12,10 @@ function SuperEditor($page, model) {
   var controller = this;
 
   Support.property(this, 'item');
+  Support.property(this, 'messageLabel');
+  Support.property(this, 'warningLabel');
+  this.messageLabel(messageLabel);
+  this.warningLabel(warningLabel);
   this.item({});
 
   searchBar.reactor = this;

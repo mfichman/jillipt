@@ -6,6 +6,7 @@ Jilli::Application.routes.draw do
   resources :patient_profiles
 
   get 'flash_cards/search'
+  get 'flash_cards/next'
   resources :flash_cards
 
   root :to => 'application#index'

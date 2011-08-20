@@ -13,6 +13,7 @@ function FlashCardsPageController($page) {
   $titleLabel.html('New Flash Card');
   $topic.show();
   $topic.val("Topic: ");
+  $page.find('.next').show();
 
   var savedTopic = "";
 
@@ -33,6 +34,40 @@ function FlashCardsPageController($page) {
       editor.item().topic = savedTopic;
     }
   }
+    
+  function next(item) {
+    var data = { topic: item.topic, id: item.id };
+    var url = '/flash_cards/next.json';
+
+    Support.request('GET', url, data, function(data, stat) {
+      if (stat != 'success') {
+        editor.warningLabel().message('');  
+        editor.warningLabel().message('Couldn\'t get the next card!');
+      } else {
+        editor.item(data["flash_card"]);
+      }
+    }); 
+  }
+
+  $page.find('.next').click(function() {
+    var item = editor.item();
+    if (item.id == null) {
+      next(item);
+      return;
+    } 
+    FlashCard.update(item, function(data, stat) {
+      if(stat == 'success') {
+        editor.item(data);
+        editor.messageLabel().message('');
+        editor.messageLabel().message('Saved!');
+        next(data);
+      } else {
+        editor.warningLabel().message('');
+        editor.warningLabel().message('Couldn\'t save!');
+      }
+    });
+
+  });
 
   $topic.keydown(function(event) {
     if (this.selectionStart < "Topic: ".length) {

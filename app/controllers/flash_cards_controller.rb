@@ -101,4 +101,31 @@ class FlashCardsController < ApplicationController
       format.json { render :json => @summary_array }
     end
   end
+
+  # GET /flash_cards/next
+  # GET /flash_cards/next.xml
+  def next
+    found = false
+    @flash_cards = FlashCard.find(
+      :all,
+      :conditions => ["lower(topic) = ?", params[:topic].downcase],
+      :order => :id
+    )
+    found = false
+    @flash_card = @flash_cards.detect do |item|
+      if found
+        next true 
+      elsif item.id.to_s == params[:id] 
+        found = true
+      end
+      false 
+    end || @flash_cards.first
+
+    respond_to do |format|
+      format.json { render :json => @flash_card }
+    end
+
+    puts @flash_card.front
+  end
+      
 end
