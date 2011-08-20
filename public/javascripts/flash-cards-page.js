@@ -123,6 +123,7 @@ function FlashCardsPageController($page) {
     editor.item().saved = false;
     editor.item().topic = topic;
     savedTopic = topic;
+    $topic.val(raw);
   });
 
   /* When a key is pressed, the profile needs to be saved */
