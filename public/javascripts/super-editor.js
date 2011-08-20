@@ -25,7 +25,6 @@ function SuperEditor($page, model) {
       controller.item({});
       return;
     }
-    console.log(item.saved);
     window[model].update(item, function(data, stat) {
       if (stat == 'success') {
         controller.item({});
