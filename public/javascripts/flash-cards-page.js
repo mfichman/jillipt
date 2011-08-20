@@ -12,11 +12,11 @@ function FlashCardsPageController($page) {
   editor.reactor = this;
   $titleLabel.html('New Flash Card');
   $topic.show();
-  $topic.val("Topic: ");
+  $topic.val('Topic: ');
   $page.find('.next').show();
   $page.find('.prev').show();
 
-  var savedTopic = "";
+  var savedTopic = '';
 
   /* Renders the current panel */
   this.onItem = function() {
@@ -28,10 +28,10 @@ function FlashCardsPageController($page) {
     $front.val(editor.item().front);
     $back.val(editor.item().back);
     if (editor.item().id != null) {
-      $topic.val("Topic: "+editor.item().topic);
+      $topic.val('Topic: '+editor.item().topic);
       savedTopic = editor.item().topic;
     } else {
-      $topic.val("Topic: "+savedTopic);
+      $topic.val('Topic: '+savedTopic);
       editor.item().topic = savedTopic;
     }
   }
@@ -46,7 +46,7 @@ function FlashCardsPageController($page) {
         editor.warningLabel().message('');  
         editor.warningLabel().message('Couldn\'t get the next card!');
       } else {
-        data = data["flash_card"];
+        data = data['flash_card'];
         data.saved = true;
         editor.item(data);
       }
@@ -63,9 +63,11 @@ function FlashCardsPageController($page) {
         editor.warningLabel().message('');  
         editor.warningLabel().message('Could\'t get the previous card!');
       } else {
-        data = data["flash_card"];
-        data.saved = true;
-        editor.item(data);
+        if (data) {
+          data = data['flash_card'];
+          data.saved = true;
+          editor.item(data);
+        }
       }
     });
   }
@@ -98,10 +100,10 @@ function FlashCardsPageController($page) {
   });
 
   $topic.keydown(function(event) {
-    if (this.selectionStart < "Topic: ".length) {
-      this.selectionStart = "Topic: ".length;
+    if (this.selectionStart < 'Topic: '.length) {
+      this.selectionStart = 'Topic: '.length;
     }
-    if ($topic.val() == "Topic: " && event.keyCode == 8) {
+    if ($topic.val() == 'Topic: ' && event.keyCode == 8) {
       event.preventDefault();
       return false;
     }
@@ -109,7 +111,7 @@ function FlashCardsPageController($page) {
 
   $topic.keyup(function() {
     var raw = $topic.val();
-    var index = "Topic: ".length;
+    var index = 'Topic: '.length;
     var topic = raw.substr(index);
 
     editor.item().saved = false;
