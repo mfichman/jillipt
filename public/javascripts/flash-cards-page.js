@@ -46,9 +46,13 @@ function FlashCardsPageController($page) {
         editor.warningLabel().message('');  
         editor.warningLabel().message('Couldn\'t get the next card!');
       } else {
-        data = data['flash_card'];
-        data.saved = true;
-        editor.item(data);
+        if (data) {
+          data = data['flash_card'];
+          data.saved = true;
+          editor.item(data);
+        } else {
+          data = {}
+        }
       }
     }); 
   }
@@ -67,6 +71,8 @@ function FlashCardsPageController($page) {
           data = data['flash_card'];
           data.saved = true;
           editor.item(data);
+        } else {
+          data = {}
         }
       }
     });

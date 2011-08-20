@@ -102,9 +102,10 @@ class FlashCardsController < ApplicationController
     end
   end
 
-  # GET /flash_cards/next
+  # GET /flash_cards/aext
   # GET /flash_cards/next.xml
   def next
+    params[:topic] ||= ''
     @flash_cards = FlashCard.find(
       :all,
       :conditions => ["lower(topic) = ?", params[:topic].downcase],
@@ -128,6 +129,7 @@ class FlashCardsController < ApplicationController
   # GET /flash_cards/prev
   # GET /flash_cards/prev.xml
   def prev
+    params[:topic] ||= ''
     @flash_cards = FlashCard.find(
       :all,
       :conditions => ["lower(topic) = ?", params[:topic].downcase],
