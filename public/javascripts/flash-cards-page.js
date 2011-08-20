@@ -14,6 +14,7 @@ function FlashCardsPageController($page) {
   $topic.show();
   $topic.val("Topic: ");
   $page.find('.next').show();
+  $page.find('.prev').show();
 
   var savedTopic = "";
 
@@ -36,6 +37,7 @@ function FlashCardsPageController($page) {
   }
     
   function next(item) {
+    /* Make a request for the flash card after 'item' */
     var data = { topic: item.topic, id: item.id };
     var url = '/flash_cards/next.json';
 
@@ -51,10 +53,27 @@ function FlashCardsPageController($page) {
     }); 
   }
 
-  $page.find('.next').click(function() {
+  function prev(item) {
+    /* Make a request for the flash card before 'item' */
+    var data = { topic: item.topic, id: item.id };
+    var url = '/flash_cards/prev.json';
+
+    Support.request('GET', url, data, function(data, stat) {
+      if(stat != 'success') {
+        editor.warningLabel().message('');  
+        editor.warningLabel().message('Could\'t get the previous card!');
+      } else {
+        data = data["flash_card"];
+        data.saved = true;
+        editor.item(data);
+      }
+    });
+  }
+
+  function save(callback) {
     var item = editor.item();
     if (item.id == null || item.saved) {
-      next(item);
+      callback(item);
       return;
     } 
     FlashCard.update(item, function(data, stat) {
@@ -62,13 +81,20 @@ function FlashCardsPageController($page) {
         editor.item(data);
         editor.messageLabel().message('');
         editor.messageLabel().message('Saved!');
-        next(data);
+        callback(data);
       } else {
         editor.warningLabel().message('');
         editor.twarningLabel().message('Couldn\'t save!');
       }
     });
+  }
 
+  $page.find('.next').click(function() {
+    save(next);
+  });
+
+  $page.find('.prev').click(function() {
+    save(prev);
   });
 
   $topic.keydown(function(event) {

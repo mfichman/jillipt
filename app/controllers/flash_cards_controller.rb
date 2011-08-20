@@ -105,7 +105,6 @@ class FlashCardsController < ApplicationController
   # GET /flash_cards/next
   # GET /flash_cards/next.xml
   def next
-    found = false
     @flash_cards = FlashCard.find(
       :all,
       :conditions => ["lower(topic) = ?", params[:topic].downcase],
@@ -124,8 +123,28 @@ class FlashCardsController < ApplicationController
     respond_to do |format|
       format.json { render :json => @flash_card }
     end
-
-    puts @flash_card.front
   end
-      
+
+  # GET /flash_cards/prev
+  # GET /flash_cards/prev.xml
+  def prev
+    @flash_cards = FlashCard.find(
+      :all,
+      :conditions => ["lower(topic) = ?", params[:topic].downcase],
+      :order => :id
+    )
+    @flash_card = nil
+    @flash_cards.detect do |item|
+        if item.id.to_s == params[:id]
+            next true
+        end
+        @flash_card = item
+        false
+    end
+    @flash_card ||= @flash_cards.last
+    
+    respond_to do |format|
+        format.json { render :json => @flash_card }
+    end
+  end
 end

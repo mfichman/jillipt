@@ -7,6 +7,7 @@ Jilli::Application.routes.draw do
 
   get 'flash_cards/search'
   get 'flash_cards/next'
+  get 'flash_cards/prev'
   resources :flash_cards
 
   root :to => 'application#index'
