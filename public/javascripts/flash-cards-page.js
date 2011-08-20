@@ -44,14 +44,16 @@ function FlashCardsPageController($page) {
         editor.warningLabel().message('');  
         editor.warningLabel().message('Couldn\'t get the next card!');
       } else {
-        editor.item(data["flash_card"]);
+        data = data["flash_card"];
+        data.saved = true;
+        editor.item(data);
       }
     }); 
   }
 
   $page.find('.next').click(function() {
     var item = editor.item();
-    if (item.id == null) {
+    if (item.id == null || item.saved) {
       next(item);
       return;
     } 
@@ -63,7 +65,7 @@ function FlashCardsPageController($page) {
         next(data);
       } else {
         editor.warningLabel().message('');
-        editor.warningLabel().message('Couldn\'t save!');
+        editor.twarningLabel().message('Couldn\'t save!');
       }
     });
 
