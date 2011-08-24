@@ -12,7 +12,6 @@ function SuperEditor($page, model) {
   var controller = this;
   var $textarea = $page.find('.editor-panel textarea');
   var $display = $page.find('.editor-panel .display');
-  var timer = null;
 
   Support.property(this, 'item');
   Support.property(this, 'messageLabel');
@@ -71,15 +70,6 @@ function SuperEditor($page, model) {
       $textarea.hide();
     }
   }
-
-  function resetTimer() {
-    clearTimeout(timer);
-    timer = setTimeout(function() {
-      editable(false);
-    }, 5000);
-  }
-
-  $textarea.keydown(resetTimer);
 
   /* Create a new entry, and save the current entry */
   $page.find('.new').click(function() {
