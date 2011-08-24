@@ -25,8 +25,8 @@ function FlashCardsPageController($page) {
     } else {
       $titleLabel.html('New Flash Card');
     }
-    $front.val(editor.item().front);
-    $back.val(editor.item().back);
+    $front.val(editor.item().front).change();
+    $back.val(editor.item().back).change();
     if (editor.item().id != null) {
       $topic.val('Topic: '+editor.item().topic);
       savedTopic = editor.item().topic;

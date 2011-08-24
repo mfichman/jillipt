@@ -20,11 +20,11 @@ function ProfilesPageController($page) {
     } else {
       $titleLabel.html('New Patient Profile');
     }
-    $diagnosis.val(editor.item().diagnosis);
-    $modalities.val(editor.item().modalities);
-    $exercises.val(editor.item().exercises);    
-    $tests.val(editor.item().tests);
-    $other.val(editor.item().other);
+    $diagnosis.val(editor.item().diagnosis).change();
+    $modalities.val(editor.item().modalities).change();
+    $exercises.val(editor.item().exercises).change();    
+    $tests.val(editor.item().tests).change();
+    $other.val(editor.item().other).change();
   }
 
   /* When a key is pressed, the profile needs to be saved */

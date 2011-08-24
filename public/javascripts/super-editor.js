@@ -42,6 +42,10 @@ function SuperEditor($page, model) {
     editable(false);
   });
 
+  $textarea.change(function() {
+    updatePanel();
+  });
+
   function insertLinks(val) {
     val = val.replace(/\n/, "<br/>");
     var pattern = /(HTTP:\/\/|HTTPS:\/\/)([a-zA-Z0-9.\/&?_=!*,\(\)+-]+)/gi;
@@ -51,18 +55,22 @@ function SuperEditor($page, model) {
     return val;
   }
 
+  function updatePanel() {
+    $page.find('.editor-panel').each(function(i, element) {
+      var $textarea = $(element).find('textarea');
+      var $display = $(element).find('.display');
+      var text = insertLinks($textarea.val());
+      $display.html("<pre>"+text+"</pre>");
+    });
+  }
+
   function editable(editable) {
     if (editable) {
       $display.hide();
       $textarea.show();
       $textarea.focus();
     } else {
-      $page.find('.editor-panel').each(function(i, element) {
-        var $textarea = $(element).find('textarea');
-        var $display = $(element).find('.display');
-        var text = insertLinks($textarea.val());
-        $display.html("<pre>"+text+"</pre>");
-      });
+      updatePanel();
       $display.show();
       $display.focus();
       $textarea.hide();

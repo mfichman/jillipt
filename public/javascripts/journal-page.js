@@ -13,7 +13,7 @@ function JournalPageController($page) {
     } else {
       $titleLabel.html('New Journal Entry');
     }
-    $text.val(editor.item().text);
+    $text.val(editor.item().text).change();
   }
 
   $text.keyup(function() {
