@@ -43,15 +43,11 @@ function SuperEditor($page, model) {
   });
 
   function insertLinks(val) {
-    val = val.replace(/</, "&lt;");
-    val = val.replace(/>/, "&gt;");
+    val = val.replace(/\n/, "<br/>");
     var pattern = /(HTTP:\/\/|HTTPS:\/\/)([a-zA-Z0-9.\/&?_=!*,\(\)+-]+)/gi;
     var replace = "<a href=\"$1$2\">$1$2</a>";
     
     val = val.replace(pattern, replace);
-    val = val.replace(/&/, "&amp;");
-    val = val.replace(/"/, "&quot;");
-    val = val.replace(/\n/, "<br/>");
     return val;
   }
 
