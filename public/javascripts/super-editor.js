@@ -10,6 +10,9 @@ function SuperEditor($page, model) {
   var autosaveTextarea = new AutosaveTextarea($page.find('.editor-panel textarea'));
   var warningLabel = new TimedMessageLabel($page.find('.warning'));
   var controller = this;
+  var $textarea = $page.find('.editor-panel textarea');
+  var $display = $page.find('.editor-panel .display');
+  var timer = null;
 
   Support.property(this, 'item');
   Support.property(this, 'messageLabel');
@@ -21,6 +24,62 @@ function SuperEditor($page, model) {
   searchBar.reactor = this;
   itemList.reactor = this;
   autosaveTextarea.reactor = this;
+
+
+  editable(false);
+
+  $display.click(function(event) {
+    editable(true);
+  });
+  
+  $display.keydown(function(event) {
+    if($display.is(":visible")) {
+      $textarea.keydown(event);
+    }
+    editable(true);
+  });
+
+  $textarea.blur(function() {
+    editable(false);
+  });
+
+  function insertLinks(val) {
+    val = val.replace(/</, "&lt;");
+    val = val.replace(/>/, "&gt;");
+    val = val.replace(/&/, "&amp;");
+    val = val.replace(/"/, "&quot;");
+    val = val.replace(/\n/, "<br/>");
+    var pattern = /(HTTP:\/\/|HTTPS:\/\/)([a-zA-Z0-9.\/&?_=!*,\(\)+-]+)/i;
+    var replace = "<a href=\"$1$2\">$1$2</a>";
+    return val.replace(pattern, replace);
+  }
+
+  function editable(editable) {
+    if (editable) {
+      $display.hide();
+      $textarea.show();
+      $textarea.focus();
+    } else {
+      $page.find('.editor-panel').each(function(i, element) {
+        var $textarea = $(element).find('textarea');
+        var $display = $(element).find('.display');
+        var text = insertLinks($textarea.val());
+        $display.html("<pre>"+text+"</pre>");
+      });
+      $display.show();
+      $display.focus();
+      $textarea.hide();
+    }
+  }
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      editable(false);
+    }, 5000);
+  }
+
+  $textarea.keydown(resetTimer);
 
   /* Create a new entry, and save the current entry */
   $page.find('.new').click(function() {

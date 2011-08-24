@@ -129,5 +129,31 @@ h2 { font-size: 14px; font-weight: bold; }
   -moz-border-radius: 4px;
   border-radius: 4px;
   padding: 4px;
+  font-family: Verdana; 
+  font-size: 13px; 
+  line-height: normal;
+  margin: 0px;
 }
-
+.editor-panel .display {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+  height: 300px; 
+  border: 1px solid gray; 
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0px;
+  margin-bottom: 1px;
+}
+.editor-panel .display pre {
+  font-family: Verdana; 
+  font-size: 13px; 
+  line-height: normal;
+  background-color: white;
+}
+.editor-panel .display a {
+  color: blue;  
+}
