@@ -147,12 +147,12 @@ h2 { font-size: 14px; font-weight: bold; }
   padding: 4px;
   margin: 0px;
   margin-bottom: 1px;
-}
-.editor-panel .display pre {
+
   font-family: Verdana; 
   font-size: 13px; 
   line-height: normal;
   background-color: white;
+  white-space: pre-wrap;
 }
 .editor-panel .display a {
   color: blue;  

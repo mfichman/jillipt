@@ -47,7 +47,6 @@ function SuperEditor($page, model) {
   });
 
   function insertLinks(val) {
-    val = val.replace(/\n/, "<br/>");
     var pattern = /(HTTP:\/\/|HTTPS:\/\/)([a-zA-Z0-9.\/&?_=!*,\(\)+-]+)/gi;
     var replace = "<a href=\"$1$2\">$1$2</a>";
     
@@ -60,7 +59,7 @@ function SuperEditor($page, model) {
       var $textarea = $(element).find('textarea');
       var $display = $(element).find('.display');
       var text = insertLinks($textarea.val());
-      $display.html("<pre>"+text+"</pre>");
+      $display.html(text);
     });
   }
 

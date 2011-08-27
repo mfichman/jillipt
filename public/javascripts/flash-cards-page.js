@@ -20,6 +20,7 @@ function FlashCardsPageController($page) {
 
   /* Renders the current panel */
   this.onItem = function() {
+    $container.tabs('select', 0);
     if (editor.item().id != null) {
       $titleLabel.html('Flash Card #' + editor.item().id);
     } else {
