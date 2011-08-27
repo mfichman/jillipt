@@ -9,6 +9,5 @@ task :cron => :environment do
         :expire => true
     })
     backup.capture
-    puts backup
     puts "Done."
 end
