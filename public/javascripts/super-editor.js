@@ -79,13 +79,14 @@ function SuperEditor($page, model) {
   /* Create a new entry, and save the current entry */
   $page.find('.new').click(function() {
     var item = controller.item();
-    if (item.id == null) {
+    if (item == {}) {
       controller.item({});
       return;
     }
     window[model].update(item, function(data, stat) {
       if (stat == 'success') {
         controller.item({});
+        autosaveTextarea.needsSave(false);
         messageLabel.message('');
         messageLabel.message('Saved!');
         controller.onQuery();
