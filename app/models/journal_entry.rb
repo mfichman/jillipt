@@ -1,5 +1,5 @@
-require 'ghetto_search'
+require 'simple_search'
 
 class JournalEntry < ActiveRecord::Base
-  extend GhettoSearch
+  extend SimpleSearch
 end

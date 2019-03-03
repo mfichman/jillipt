@@ -1,5 +1,5 @@
-require 'ghetto_search'
+require 'simple_search'
 
 class PatientProfile < ActiveRecord::Base
-  extend GhettoSearch
+  extend SimpleSearch
 end

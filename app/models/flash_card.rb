@@ -1,5 +1,5 @@
-require 'ghetto_search'
+require 'simple_search'
 
 class FlashCard < ActiveRecord::Base
-	extend GhettoSearch
+	extend SimpleSearch
 end
